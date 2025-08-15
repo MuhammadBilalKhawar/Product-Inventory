@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="bg-amber-500 flex justify-center items-center">
+    <div
+      class="flex flex-col h-150 w-170 justify-center items-center border-4 bg-amber-200 text-2xl font-mono font-bold space-y-3 mt-5 max-[540px]:w-100"
+    >
+      <h1>LOGIN / SINGUP</h1>
+      <div class="max-[540px]:ml-10">
+        <label>USERNAME : </label>
+        <input
+          type="text"
+          id="user"
+          class="border-2 border-cyan-500 rounded-2xl"
+        />
+      </div>
+      <div class="max-[540px]:ml-10">
+        <label>PASSWORD : </label>
+
+        <input
+          type="text"
+          id="pass"
+          class="border-2 border-cyan-500 rounded-2xl"
+        />
+      </div>
+      <button
+        type="button"
+        id="loginBtn"
+        class="border-2 border-black rounded-2xl w-50 bg-amber-500 active:bg-white hover:bg-white"
+      >
+        LOGIN
+      </button>
+      <button
+        type="button"
+        onclick="window.location.href='/register.html'"
+        class="border-2 border-black rounded-2xl w-50 bg-amber-500 active:bg-white hover:bg-white"
+      >
+        Go to Register
+      </button>
+
+      <h2>Status : <span id="status"></span></h2>
+    </div>
+    <script>
+      document.getElementById("loginBtn").addEventListener("click", () => {
+        const username = document.getElementById("user").value;
+        const password = document.getElementById("pass").value;
+        if (username == "" || password == "") {
+          alert("Fill all input fields ");
+          window.location.href = "./login.html";
+        }
+        axios
+          .post("/login", { username, password })
+          .then((res) => {
+            document.getElementById("status").innerText = res.data.message;
+            if (res.data.message === "Success") {
+              window.location.href = "/index.html";
+            }
+          })
+          .catch((err) => {
+            document.getElementById("status").innerText =
+              "Error: " + err.message;
+          });
+      });
+    </script>
+  </body>
+</html>

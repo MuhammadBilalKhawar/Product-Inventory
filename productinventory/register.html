@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+  <body class="bg-amber-500 flex justify-center items-center">
+    <div
+      class="flex flex-col h-150 w-170 justify-center items-center border-4 bg-amber-200 text-2xl font-mono font-bold space-y-3 mt-5 max-[540px]:w-100"
+    >
+      <h1>Register</h1>
+      <div class="max-[540px]:ml-10">
+        <label>USERNAME : </label>
+        <input
+          type="text"
+          id="user"
+          class="border-2 border-cyan-500 rounded-2xl"
+        />
+      </div>
+      <div class="max-[540px]:ml-10">
+        <label>PASSWORD : </label>
+        <input
+          type="password"
+          id="pass"
+          class="border-2 border-cyan-500 rounded-2xl"
+        />
+      </div>
+      <div class="max-[540px]:ml-10">
+        <label>CONFIRM PASS : </label>
+        <input
+          type="password"
+          id="cpass"
+          class="border-2 border-cyan-500 rounded-2xl"
+        />
+      </div>
+      <button
+        type="button"
+        onclick="register()"
+        class="border-2 border-black rounded-2xl w-50 bg-amber-500 active:bg-white hover:bg-white"
+      >
+        SIGNUP
+      </button>
+      <h2>RESULT: <span id="status"></span></h2>
+    </div>
+
+    <script>
+      function register() {
+        let u = document.getElementById("user").value;
+        let pass = document.getElementById("pass").value;
+        let cpass = document.getElementById("cpass").value;
+        if (u == "" || pass == "" || cpass == "") {
+          alert("Fill all input fields ");
+          window.location.href = "./register.html";
+        }
+        fetch("/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: u,
+            password: pass,
+            confirm: cpass,
+          }),
+        })
+          .then((res) => res.text())
+          .then((msg) => {
+            if (msg === "User") {
+              alert("USER ALREADY EXISTS");
+              window.location.href = "./register.html";
+            } else {
+              document.getElementById("status").innerText = msg;
+              window.location.href = "./login.html";
+            }
+          })
+          .catch(
+            () =>
+              (document.getElementById("status").innerText = "NETWORK ERROR!")
+          );
+      }
+    </script>
+  </body>
+</html>

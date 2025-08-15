@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="flex justify-center items-center bg-amber-600">
+    <div
+      class="flex flex-col mt-20 h-150 w-170 justify-center items-center bg-gray-500 border-2 border-black rounded-3xl m-4 text-2xl font-mono max-[480px]:w-100"
+    >
+      <h1 class="text-3xl font-bold font-mono">PRODUCT</h1>
+
+      <label for="">NAME:</label>
+      <input
+        type="text"
+        id="name"
+        placeholder="Name"
+        class="rounded-3xl bg-amber-600 text-black border-2 border-black h-15 w-100 mt-6 text-2xl hover:bg-amber-50 max-[480px]:w-60 active:bg-amber-50"
+      />
+
+      <label class="inline-flex">Price:</label>
+      <input
+        type="text"
+        id="price"
+        placeholder="Price"
+        class="rounded-3xl bg-amber-600 text-black border-2 border-black h-15 w-100 mt-6 text-2xl hover:bg-amber-50 active:bg-amber-50 max-[480px]:w-60"
+      />
+      <button
+        type="button"
+        id="btn"
+        class="rounded-3xl bg-amber-600 text-black border-2 border-black w-50 mt-6 max-[480px]:w-60 active:bg-amber-50"
+      >
+        Add
+      </button>
+      <h1 class="mt-4 font-bold max-[480px]:w-70">
+        Result: <span id="pid" class="text-white font-bold"></span>
+      </h1>
+    </div>
+    <script>
+      document.getElementById("btn").addEventListener("click", () => {
+        const name = document.getElementById("name").value;
+        const price = document.getElementById("price").value;
+        if (name == "" || price == "") {
+          alert("Fill all input fields ");
+          window.location.href = "./add.html";
+        }
+
+        axios.post("/Add", { name: name, price: price }).then((res) => {
+          document.getElementById("pid").innerText = res.data;
+          if (res.data.success === false) {
+            alert("Product already exists");
+            window.location.href = "./add.html";
+          }
+          window.location.href = "./index.html";
+        });
+      });
+    </script>
+  </body>
+</html>

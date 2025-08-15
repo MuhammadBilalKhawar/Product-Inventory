@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="flex justify-center items-center bg-amber-600">
+    <div
+      class="flex flex-col mt-20 h-150 w-170 justify-center items-center bg-gray-500 border-2 border-black rounded-3xl m-4 max-[540px]:w-100"
+    >
+      <h1 class="text-3xl">PRODUCT INVENTORY!</h1>
+
+      <input
+        type="text"
+        id="name"
+        class="rounded-3xl p-2 bg-amber-600 text-black border-2 border-black h-20 w-120 mt-6 text-2xl hover:bg-amber-50 max-[540px]:w-80 active:bg-amber-50"
+      />
+      <button
+        id="btn"
+        class="rounded-3xl bg-amber-600 text-black border-2 border-black w-50 mt-6 hover:bg-white active:bg-amber-50"
+      >
+        SEARCH
+      </button>
+      <a
+        href="add.html"
+        class="rounded-3xl bg-amber-600 text-black border-2 border-black w-50 mt-6 text-center hover:bg-white active:bg-amber-50"
+      >
+        <button type="button">ADD PRODUCT!!</button>
+      </a>
+      <div
+        class="flex flex-col mt-20 h-150 w-120 justify-center items-center bg-gray-500 border-2 border-black rounded-3xl text-3xl font-mono font-bold mb-3 max-[540px]:w-80 max-[540px]:text-2xl"
+      >
+        <h2>PRODUCT ID :<span id="pid" class="text-white"></span></h2>
+        <h2>PRODUCT NAME :<span id="pname" class="text-white"></span></h2>
+        <h2>PRODUCT PRICE :<span id="price" class="text-white"></span> PKR</h2>
+      </div>
+    </div>
+    <script>
+      document.getElementById("btn").addEventListener("click", () => {
+        const nam = document.getElementById("name").value;
+        if (nam == "") {
+          alert("Please Enter a name !");
+          window.location.href = "./index.html";
+        }
+        axios.post("/search", { nam }).then((res) => {
+          document.getElementById("pid").innerText = res.data.num;
+          document.getElementById("pname").innerText = res.data.name;
+          document.getElementById("price").innerText = res.data.price;
+        });
+      });
+    </script>
+  </body>
+</html>
